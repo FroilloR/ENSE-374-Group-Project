@@ -10,6 +10,8 @@ app.use(express.static("public"))
 // configure express to access variables in req.body object when submitting forms
 app.use(express.urlencoded({ extended: true})); 
 
+app.set("view engine", "ejs");
+
 // a common localhost test port
 const port = 3000; 
 
@@ -20,7 +22,7 @@ app.listen (port, () => {
 });
 
 app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/index.html");
+    res.render("index");
 });
 
 app.post('/todo', (req, res) => {
@@ -41,7 +43,7 @@ app.post('/todo', (req, res) => {
             const userFound = users.find(user => user.username === username && user.password === password);
 
             if (userFound) {
-                res.sendFile(__dirname + '/home.html');
+                res.render("budget" , {username : req.body["username"]});
                 console.log("Correct log-in information");
             } else {
                 console.log("Unregistered username or password");
